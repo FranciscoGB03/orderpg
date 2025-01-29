@@ -1,0 +1,5 @@
+python3 -m venv venv para generar un ambiente
+para usar el ambiente creado
+source venv/bin/activate
+instalar
+pip install flask flask-cors requests
