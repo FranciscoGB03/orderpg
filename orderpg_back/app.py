@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
@@ -40,4 +41,5 @@ def handle_order():
         return jsonify({"error": "No se pudo enviar el mensaje a Telegram"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render asigna un puerto dinámico
+    app.run(host='0.0.0.0', port=port, debug=True)
