@@ -10,6 +10,12 @@ CORS(app)  # Habilitar CORS para que el frontend pueda acceder al backend
 BOT_TOKEN = "7575015239:AAGcHlAAxWdbPMdFiYctO6kjdXWEXe_03FM"
 CHAT_ID = "5554412256"  # ID del chat donde llegarán los pedidos
 
+# ruta para matener vivo el servidor en render
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"message": "pong"}), 200
+
+#ruta para mandar el mensaje a telegram
 @app.route('/api/order', methods=['POST'])
 def handle_order():
     data = request.json
