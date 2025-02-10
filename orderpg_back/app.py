@@ -23,7 +23,7 @@ scheduler.start()
 # ruta para matener vivo el servidor en render
 @app.route("/ping", methods=["GET"])
 def ping():
-    return jsonify({"message": "pong"}), 200
+    return jsonify({"message": CHAT_ID}), 200
 
 #ruta para mandar el mensaje a telegram
 @app.route('/api/order', methods=['POST'])
