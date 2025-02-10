@@ -3,3 +3,5 @@ para usar el ambiente creado
 source venv/bin/activate
 instalar
 pip install flask flask-cors requests
+para instalar el archivo requirements.txt
+pip install -r requirements.txt

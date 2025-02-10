@@ -2,13 +2,23 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
+from dotenv import load_dotenv
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 CORS(app)  # Habilitar CORS para que el frontend pueda acceder al backend
 
 # Configuración del bot de Telegram
-BOT_TOKEN = "7575015239:AAGcHlAAxWdbPMdFiYctO6kjdXWEXe_03FM"
-CHAT_ID = "5554412256"  # ID del chat donde llegarán los pedidos
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("SUPABASE_KEY")  # ID del chat donde llegarán los pedidos
+
+def tarea_repetitiva():
+    print("Hola")
+
+# Configurar el scheduler
+scheduler = BackgroundScheduler()
+scheduler.add_job(tarea_repetitiva, 'interval', seconds=30)  # Ejecuta cada 30 segundos
+scheduler.start()
 
 # ruta para matener vivo el servidor en render
 @app.route("/ping", methods=["GET"])
@@ -47,5 +57,8 @@ def handle_order():
         return jsonify({"error": "No se pudo enviar el mensaje a Telegram"}), 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Render asigna un puerto dinámico
-    app.run(host='0.0.0.0', port=port, debug=True)
+    try:
+        port = int(os.environ.get("PORT", 5000))  # Render asigna un puerto dinámico
+        app.run(host='0.0.0.0', port=port, debug=True)
+    except (KeyboardInterrupt, SystemExit):
+        scheduler.shutdown()
