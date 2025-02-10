@@ -10,7 +10,7 @@ CORS(app)  # Habilitar CORS para que el frontend pueda acceder al backend
 
 # Configuración del bot de Telegram
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("SUPABASE_KEY")  # ID del chat donde llegarán los pedidos
+CHAT_ID = os.getenv("CHAT_ID")  # ID del chat donde llegarán los pedidos
 
 def tarea_repetitiva():
     print("Hola")
