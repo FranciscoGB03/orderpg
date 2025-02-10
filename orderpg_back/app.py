@@ -41,6 +41,7 @@ def handle_order():
         return jsonify({"error": "Faltan campos"}), 400
 
     # Crear el mensaje para Telegram
+    print(CHAT_ID)
     message = f"🍰 *Nuevo Pedido de Postres* 🍰\n\n👤 Cliente: {customer_name}\n🍨 Postre: {dessert}\n📍 Dirección: {address}"
     telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {
