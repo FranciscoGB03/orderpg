@@ -7,18 +7,15 @@ def handle_order():
         return jsonify({"error": "Datos inválidos"}), 400
 
     customer_name = data.get("customer_name")
-    product = data.get("product", {})
-    product_name = product.get("name")
-    notes = data.get("notes", "")
-    address = data.get("address", "")
-    amount = data.get("amount")
+    products = data.get("products", [])  # Lista de productos
     phone = data.get("phone")
+    address = data.get("address", "")
 
-    if not customer_name or not product_name or not amount:
-        return jsonify({"error": "Faltan campos"}), 400
+    if not customer_name or not products or not phone:
+        return jsonify({"error": "Faltan campos obligatorios"}), 400
 
-    success = send_order_to_telegram(customer_name, product_name, notes, amount, phone, address)
-    
+    success = send_order_to_telegram(customer_name, products, phone, address)
+
     if success:
         return jsonify({"message": "Pedido enviado exitosamente"}), 200
     else:
