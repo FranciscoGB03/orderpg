@@ -5,7 +5,10 @@ def send_order_to_telegram(customer_name, products, phone, address):
     product_details = "\n".join(
         [
             f"🍨 Producto: {p['name']}\n"
-            f"📓 Notas: {p.get('notes', 'Sin notas')}\n"
+            f"🍫 Topping: {p.get('topping', 'Sin Topping')}\n"
+            f"🍓 Mermelada: {p.get('jam', 'Sin mermelada')}\n"
+            f"🍯 Jarabe: {p.get('syrup', 'Sin jarabe')}\n"
+            f"📓 Elección, complemento o especificación en el pedido: {p.get('notes', 'Sin notas')}\n"
             f"#️⃣ Cantidad: {p['amount']}\n"
             f"💲 Precio unitario: {p['price']}\n"
             f"💰 Subtotal: {p['amount'] * p['price']}\n"

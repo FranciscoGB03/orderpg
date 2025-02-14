@@ -14,12 +14,27 @@ const PedidoForm = () => {
 
   const [message, setMessage] = useState("");
   const [menus, setMenus] = useState([]);
+  const [toppings, setToppings] = useState([]);
+  const [jams, setJams] = useState([]);
+  const [syrups, setSyrups] = useState([]);
 
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/menus`)
       .then((response) => setMenus(response.data))
       .catch((error) => console.error("Error al obtener menús:", error));
+    axios
+      .get(`${API_BASE_URL}/allActiveToppings`)
+      .then((response) => setToppings(response.data))
+      .catch((error) => console.error("Error al obtener toppings:", error));
+    axios
+      .get(`${API_BASE_URL}/allActiveJams`)
+      .then((response) => setJams(response.data))
+      .catch((error) => console.error("Error al obtener mermeladas:", error));
+    axios
+      .get(`${API_BASE_URL}/allActiveSyrups`)
+      .then((response) => setSyrups(response.data))
+      .catch((error) => console.error("Error al obtener jarabes:", error));
   }, []);
 
   const handleChange = (e) => {
@@ -40,7 +55,14 @@ const PedidoForm = () => {
       ...form,
       products: [
         ...form.products,
-        { ...selectedProduct, amount: 1, notes: "" }, // Se inicializa con cantidad 1 y notes vacío
+        {
+          ...selectedProduct,
+          amount: 1,
+          topping: "",
+          syrup: "",
+          jam: "",
+          notes: "",
+        }, // Se inicializa con cantidad 1 y notes vacío
       ],
     });
   };
@@ -160,7 +182,59 @@ const PedidoForm = () => {
                   </div>
                   <div>
                     <label className="block text-gray-700">
-                      Algún comentario:
+                      Selecciona topping:
+                    </label>
+                    <select
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                      onChange={(e) =>
+                        handleProductChange(index, "topping", e.target.value)
+                      }
+                    >
+                      <option value="">--Elige una opción--</option>
+                      {toppings.map((t) => (
+                        <option key={t.id} value={t.name}>
+                          {t.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>{" "}
+                  <div>
+                    <label className="block text-gray-700">
+                      Selecciona mermelada o jarabe:
+                    </label>
+                    <select
+                      disabled={product.syrup !== ""}
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                      onChange={(e) =>
+                        handleProductChange(index, "jam", e.target.value)
+                      }
+                    >
+                      <option value="">--Elige una opción--</option>
+                      {jams.map((t) => (
+                        <option key={t.id} value={t.name}>
+                          {t.name}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      disabled={product.jam !== ""}
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                      onChange={(e) =>
+                        handleProductChange(index, "syrup", e.target.value)
+                      }
+                    >
+                      <option value="">--Elige una opción--</option>
+                      {syrups.map((t) => (
+                        <option key={t.id} value={t.name}>
+                          {t.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">
+                      Escriba su elección de complemento, algún topping extra o
+                      alguna especificación de su pedido:
                     </label>
                     <input
                       type="text"
